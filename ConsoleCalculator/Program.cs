@@ -10,55 +10,37 @@ namespace ConsoleCalculator
     {
         static void Main(string[] args)
         {
-            double input1;
-            double input2;
-            string operation;
-            double result;
-
-            Console.Write("Enter first number: ");
-            double.TryParse(Console.ReadLine(), out input1);
-
-            Console.Write("Enter secnond number: ");
-            double.TryParse(Console.ReadLine(), out input2);
-
-            Console.Write("Enter the operation: ");
-            operation = Console.ReadLine().ToLower();
-
-            switch (operation)
+            try
             {
-                case "+":
-                case "add":
-                    operation = "+";
-                    result = input1 + input2;
-                    break;
-                case "-":
-                case "subtract":
-                    operation = "-";
-                    result = input1 - input2;
-                    break;
-                case "*":
-                case "mulitply":
-                    operation = "*";
-                    result = input1 * input2;
-                    break;
-                case "/":
-                case "divide":
-                    operation = "/";
-                    result = 0;
-                    if (input2 != 0)
-                        result = input1 / input2;
-                    else
-                        Console.WriteLine("Invalid operation: Cannot divide by zero.");
-                    break;
-                default:
-                    result = 0;
-                    Console.WriteLine("Invalid operation: Try again: ");
-                    break;
+                StringToNumeric stringToNumeric = new StringToNumeric();
+                CalculatorEngine calculatorEngine = new CalculatorEngine();
 
+                // get user input
+                Console.Write("Enter a number: ");
+                double input1 = stringToNumeric.GetNumber(Console.ReadLine());
+                Console.Write("Enter another number: ");
+                double input2 = stringToNumeric.GetNumber(Console.ReadLine());
+                Console.Write("Enter operation: ");
+                string operation = Console.ReadLine();
+
+                double result = calculatorEngine.Calculate(input1, input2, operation);
+
+                Console.WriteLine(result);
+                
+            
+            }
+            catch (Exception ex)
+            {
+                //TODO: change ouput to log
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                Console.Write("Press any key to exit: ");
+                Console.ReadLine();
             }
 
-            Console.WriteLine("{0} {1} {2} = {3} ", input1.ToString(), operation, input2.ToString(), result.ToString());
-            Console.ReadLine();
+
         }
     }
 }
